@@ -9,6 +9,7 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -56,7 +57,13 @@ public class Robot extends TimedRobot {
     DataLogManager.start();
     // Start Epilogue's generated logger for this robot and its logged fields.
     Epilogue.bind(this);
+
+   // Autonomus Sendable Chooser
   }
+    private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
 
   /**
@@ -149,3 +156,6 @@ public class Robot extends TimedRobot {
 
   // atum wa shere
 }
+
+
+
