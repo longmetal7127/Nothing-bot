@@ -4,66 +4,46 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.sim.SparkMaxSim;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 import static frc.robot.Constants.FuelConstants.*;
 
 public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax LeftIntakeLauncher;
   private final SparkMax RightIntakeLauncher;
-  private final SparkMax Indexer;
 
   private final SparkMaxSim leftLauncherSim;
   private final SparkMaxSim rightLauncherSim;
-  private final SparkMaxSim indexerSim;
   private final DCMotorSim leftLauncherPhysicsSim;
   private final DCMotorSim rightLauncherPhysicsSim;
-  private final DCMotorSim indexerPhysicsSim;
 
   /** Creates a new CANBallSubsystem. */
   public CANFuelSubsystem() {
     // create brushed motors for each of the motors on the launcher mechanism
     LeftIntakeLauncher = new SparkMax(LEFT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     RightIntakeLauncher = new SparkMax(RIGHT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
-    Indexer = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushed);
 
-    // Simulate the two brushless NEO-class shooter motors and a CIM-class
-    // brushed indexer. The indexer model is an approximation until its exact
-    // motor type is confirmed.
+    // Simulate the two brushless NEO shooter motors.
     DCMotor shooterMotorModel = DCMotor.getNEO(1);
-    DCMotor indexerMotorModel = DCMotor.getCIM(1);
     leftLauncherSim = new SparkMaxSim(LeftIntakeLauncher, shooterMotorModel);
     rightLauncherSim = new SparkMaxSim(RightIntakeLauncher, shooterMotorModel);
-    indexerSim = new SparkMaxSim(Indexer, indexerMotorModel);
     leftLauncherPhysicsSim = new DCMotorSim(
         LinearSystemId.createDCMotorSystem(shooterMotorModel, 0.0005, 1.0), shooterMotorModel);
     rightLauncherPhysicsSim = new DCMotorSim(
         LinearSystemId.createDCMotorSystem(shooterMotorModel, 0.0005, 1.0), shooterMotorModel);
-    indexerPhysicsSim = new DCMotorSim(
-        LinearSystemId.createDCMotorSystem(indexerMotorModel, 0.00025, 1.0), indexerMotorModel);
-
-    // create the configuration for the feeder roller, set a current limit and apply
-    // the config to the controller
-    SparkMaxConfig feederConfig = new SparkMaxConfig();
-    feederConfig.smartCurrentLimit(INDEXER_MOTOR_CURRENT_LIMIT);
-    Indexer.configure(feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // create the configuration for the launcher roller, set a current limit, set
     // the motor to inverted so that positive values are used for both intaking and
@@ -81,9 +61,7 @@ public class CANFuelSubsystem extends SubsystemBase {
     // all commands using this subsystem pull values from the dashbaord to allow
     // you to tune the values easily, and then replace the values in Constants.java
     // with your new values. For more information, see the Software Guide.
-    SmartDashboard.putNumber("Intaking feeder roller value", INDEXER_INTAKING_PERCENT);
     SmartDashboard.putNumber("Intaking intake roller value", INTAKE_INTAKING_PERCENT);
-    SmartDashboard.putNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT);
     SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT);
     //SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
   }
@@ -96,12 +74,11 @@ public class CANFuelSubsystem extends SubsystemBase {
 
   // A method to set the voltage of the intake roller
   public void setFeederRoller(double power) {
-    Indexer.set(power); // positive for shooting
+    // CAN 8 indexer was removed. Kept as a no-op so existing commands still compile.
   }
 
   // A method to stop the rollers
   public void stop() {
-    Indexer.set(0);
     LeftIntakeLauncher.set(0);
     RightIntakeLauncher.set(0);
   }
@@ -114,8 +91,6 @@ public class CANFuelSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Fuel/Left Shooter Current (A)", LeftIntakeLauncher.getOutputCurrent());
     SmartDashboard.putNumber("Fuel/Right Shooter Output", RightIntakeLauncher.getAppliedOutput());
     SmartDashboard.putNumber("Fuel/Right Shooter Current (A)", RightIntakeLauncher.getOutputCurrent());
-    SmartDashboard.putNumber("Fuel/Indexer Output", Indexer.getAppliedOutput());
-    SmartDashboard.putNumber("Fuel/Indexer Current (A)", Indexer.getOutputCurrent());
   }
 
   @Override
@@ -123,7 +98,6 @@ public class CANFuelSubsystem extends SubsystemBase {
     double batteryVoltage = RoboRioSim.getVInVoltage();
     updateMotorSimulation(leftLauncherSim, leftLauncherPhysicsSim, batteryVoltage, "Fuel/Left Shooter Sim RPM");
     updateMotorSimulation(rightLauncherSim, rightLauncherPhysicsSim, batteryVoltage, "Fuel/Right Shooter Sim RPM");
-    updateMotorSimulation(indexerSim, indexerPhysicsSim, batteryVoltage, "Fuel/Indexer Sim RPM");
   }
 
   private void updateMotorSimulation(
