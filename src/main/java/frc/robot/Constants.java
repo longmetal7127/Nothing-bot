@@ -48,19 +48,22 @@ public final class Constants {
     public static final double INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT = -0.5;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
-    public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
+    // Reverse the intake/shooter rollers for launch compared with intake.
+    public static final double LAUNCHING_LAUNCHER_PERCENT = -.85;
     public static final double INTAKE_EJECT_PERCENT = -0.8;
 
     public static final double SPIN_UP_SECONDS = 0.75;
   }
 
-  public static final class ClimbConstatns {
-    // Motor controller IDs for Climb motor
-    public static final int CLIMBER_MOTOR_ID = 7;
+  public static final class VortexConstants {
+    // CAN ID of the SPARK Flex controller docked to the NEO Vortex motor
+    public static final int VORTEX_MOTOR_ID = 7;
+  }
 
-    // Current limit for climb motor
+  // Kept temporarily so the unused legacy climber source files still compile.
+  public static final class ClimbConstatns {
+    public static final int CLIMBER_MOTOR_ID = 7;
     public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
-    // Percentage to power the motor both up and down
     public static final double CLIMBER_MOTOR_DOWN_PERCENT = -0.8;
     public static final double CLIMBER_MOTOR_UP_PERCENT = 0.8;
   }
