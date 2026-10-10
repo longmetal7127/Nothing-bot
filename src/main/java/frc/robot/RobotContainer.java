@@ -15,7 +15,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
-import frc.robot.commands.ForwardAuto;
+import frc.robot.commands.Mid_Auto;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.Constants.VortexConstants;
@@ -58,7 +58,7 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
     // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
-    autoChooser.setDefaultOption("Autonomous", new ForwardAuto(driveSubsystem, fuelSubsystem));
+    autoChooser.setDefaultOption("Autonomous", new Mid_Auto(driveSubsystem, fuelSubsystem));
 
   }
 
