@@ -22,7 +22,5 @@ public class VortexSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Vortex/Applied Output", vortexMotor.getAppliedOutput().get(0.0));
-    SmartDashboard.putNumber("Vortex/Current (A)", vortexMotor.getOutputCurrent().get(0.0));
   }
 }
