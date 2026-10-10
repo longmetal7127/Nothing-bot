@@ -75,7 +75,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     // While the left trigger is held, run the fuel intake and Vortex intake motor.
-    driverController.leftTrigger().whileTrue(new Intake(fuelSubsystem));
+    driverController.leftTrigger().whileTrue(new Intake(fuelSubsystem, vortexSubsystem));
     driverController.leftTrigger().whileTrue(vortexSubsystem.runEnd(
         () -> vortexSubsystem.setOutput(VortexConstants.VORTEX_INTAKING_PERCENT),
         vortexSubsystem::stop));

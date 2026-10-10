@@ -12,8 +12,13 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.sim.SparkMaxSim;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -25,12 +30,34 @@ public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax RightIntakeLauncher;
   private final SparkMax Indexer;
 
+  private final SparkMaxSim leftLauncherSim;
+  private final SparkMaxSim rightLauncherSim;
+  private final SparkMaxSim indexerSim;
+  private final DCMotorSim leftLauncherPhysicsSim;
+  private final DCMotorSim rightLauncherPhysicsSim;
+  private final DCMotorSim indexerPhysicsSim;
+
   /** Creates a new CANBallSubsystem. */
   public CANFuelSubsystem() {
     // create brushed motors for each of the motors on the launcher mechanism
     LeftIntakeLauncher = new SparkMax(LEFT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     RightIntakeLauncher = new SparkMax(RIGHT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     Indexer = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushed);
+
+    // Simulate the two brushless NEO-class shooter motors and a CIM-class
+    // brushed indexer. The indexer model is an approximation until its exact
+    // motor type is confirmed.
+    DCMotor shooterMotorModel = DCMotor.getNEO(1);
+    DCMotor indexerMotorModel = DCMotor.getCIM(1);
+    leftLauncherSim = new SparkMaxSim(LeftIntakeLauncher, shooterMotorModel);
+    rightLauncherSim = new SparkMaxSim(RightIntakeLauncher, shooterMotorModel);
+    indexerSim = new SparkMaxSim(Indexer, indexerMotorModel);
+    leftLauncherPhysicsSim = new DCMotorSim(
+        LinearSystemId.createDCMotorSystem(shooterMotorModel, 0.0005, 1.0), shooterMotorModel);
+    rightLauncherPhysicsSim = new DCMotorSim(
+        LinearSystemId.createDCMotorSystem(shooterMotorModel, 0.0005, 1.0), shooterMotorModel);
+    indexerPhysicsSim = new DCMotorSim(
+        LinearSystemId.createDCMotorSystem(indexerMotorModel, 0.00025, 1.0), indexerMotorModel);
 
     // create the configuration for the feeder roller, set a current limit and apply
     // the config to the controller
@@ -83,6 +110,27 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void periodic() {
     // Show live motor output and current on the SmartDashboard. Applied output
     // is a fraction from -1.0 to 1.0; current is measured in amps.
-   
+    SmartDashboard.putNumber("Fuel/Left Shooter Output", LeftIntakeLauncher.getAppliedOutput());
+    SmartDashboard.putNumber("Fuel/Left Shooter Current (A)", LeftIntakeLauncher.getOutputCurrent());
+    SmartDashboard.putNumber("Fuel/Right Shooter Output", RightIntakeLauncher.getAppliedOutput());
+    SmartDashboard.putNumber("Fuel/Right Shooter Current (A)", RightIntakeLauncher.getOutputCurrent());
+    SmartDashboard.putNumber("Fuel/Indexer Output", Indexer.getAppliedOutput());
+    SmartDashboard.putNumber("Fuel/Indexer Current (A)", Indexer.getOutputCurrent());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    double batteryVoltage = RoboRioSim.getVInVoltage();
+    updateMotorSimulation(leftLauncherSim, leftLauncherPhysicsSim, batteryVoltage, "Fuel/Left Shooter Sim RPM");
+    updateMotorSimulation(rightLauncherSim, rightLauncherPhysicsSim, batteryVoltage, "Fuel/Right Shooter Sim RPM");
+    updateMotorSimulation(indexerSim, indexerPhysicsSim, batteryVoltage, "Fuel/Indexer Sim RPM");
+  }
+
+  private void updateMotorSimulation(
+      SparkMaxSim motorSim, DCMotorSim physicsSim, double batteryVoltage, String rpmKey) {
+    physicsSim.setInputVoltage(motorSim.getAppliedOutput() * batteryVoltage);
+    physicsSim.update(0.02);
+    motorSim.iterate(physicsSim.getAngularVelocityRPM(), batteryVoltage, 0.02);
+    SmartDashboard.putNumber(rpmKey, physicsSim.getAngularVelocityRPM());
   }
 }
