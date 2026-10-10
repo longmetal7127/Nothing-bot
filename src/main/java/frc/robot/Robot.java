@@ -7,15 +7,11 @@ package frc.robot;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.epilogue.Epilogue;
-import edu.wpi.first.epilogue.Logged;
-
-
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,7 +24,6 @@ import edu.wpi.first.epilogue.Logged;
  *
  */
 
-@Logged
 public class Robot extends TimedRobot {
  
   private Command m_autonomousCommand;
@@ -49,11 +44,15 @@ public class Robot extends TimedRobot {
 
     // Used to track usage of Kitbot code, please do not remove.
     HAL.report(tResourceType.kResourceType_Framework, 10);
-     CameraServer.startAutomaticCapture();
-       DataLogManager.start(); // Optional to mirror the NetworkTables-logged data to a file on disk
-    Epilogue.bind(this);
+    // A USB camera is available on the real robot, but usually not in desktop sim.
+    if (RobotBase.isReal()) {
+      CameraServer.startAutomaticCapture();
+    }
+
+    // Save WPILib and NetworkTables data to a log file.
+    DataLogManager.start();
   }
-  
+
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
@@ -96,7 +95,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-     CommandScheduler.getInstance().schedule(m_autonomousCommand);
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
     }
   }
 
