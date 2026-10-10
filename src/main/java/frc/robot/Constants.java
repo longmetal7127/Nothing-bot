@@ -60,14 +60,6 @@ public final class Constants {
     public static final int VORTEX_MOTOR_ID = 7;
   }
 
-  // Kept temporarily so the unused legacy climber source files still compile.
-  public static final class ClimbConstatns {
-    public static final int CLIMBER_MOTOR_ID = 7;
-    public static final int CLIMBER_MOTOR_CURRENT_LIMIT = 40;
-    public static final double CLIMBER_MOTOR_DOWN_PERCENT = -0.8;
-    public static final double CLIMBER_MOTOR_UP_PERCENT = 0.8;
-  }
-
   public static final class OperatorConstants {
 
     // Port constants for driver and operator controllers. These should match the
