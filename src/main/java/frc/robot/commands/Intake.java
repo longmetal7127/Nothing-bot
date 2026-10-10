@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.VortexSubsystem;
+import frc.robot.subsystems.Intake_Subsystem;
 import frc.robot.Constants.VortexConstants;
 import static frc.robot.Constants.FuelConstants.*;
 
@@ -16,9 +16,9 @@ public class Intake extends Command {
   /** Creates a new Intake. */
 
   CANFuelSubsystem fuelSubsystem;
-  VortexSubsystem vortexSubsystem;
+  Intake_Subsystem vortexSubsystem;
 
-  public Intake(CANFuelSubsystem fuelSystem, VortexSubsystem vortexSystem) {
+  public Intake(CANFuelSubsystem fuelSystem, Intake_Subsystem vortexSystem) {
     addRequirements(fuelSystem, vortexSystem);
     this.fuelSubsystem = fuelSystem;
     this.vortexSubsystem = vortexSystem;
