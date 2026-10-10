@@ -2,23 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Bot_commands;
+
+import static frc.robot.Constants.OperatorConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CANDriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoDrive extends Command {
+public class Drive extends Command {
   /** Creates a new Drive. */
   CANDriveSubsystem driveSubsystem;
-  double xSpeed, zRotation;
+  CommandXboxController controller;
 
-  public AutoDrive(CANDriveSubsystem driveSystem, double xSpeed, double zRotation) {
+  public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSystem);
     driveSubsystem = driveSystem;
-    this.xSpeed = xSpeed;
-    this.zRotation = zRotation;
+    controller = driverController;
   }
 
   // Called when the command is initially scheduled.
@@ -27,11 +29,13 @@ public class AutoDrive extends Command {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // Setting the values here instead of in initialize feeds the watchdog on the
-  // arcade drive object
+  // The Y axis of the controller is inverted so that pushing the
+  // stick away from you (a negative value) drives the robot forwards (a positive
+  // value). The X axis is scaled down so the rotation is more easily
+  // controllable.
   @Override
   public void execute() {
-    driveSubsystem.driveArcade(xSpeed, zRotation);
+    driveSubsystem.driveArcade(-controller.getLeftY() * DRIVE_SCALING, -controller.getRightX() * ROTATION_SCALING);
   }
 
   // Called once the command ends or is interrupted.
