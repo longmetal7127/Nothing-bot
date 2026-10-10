@@ -50,14 +50,22 @@ public class CANFuelSubsystem extends SubsystemBase {
     // create the configuration for the launcher roller, set a current limit, set
     // the motor to inverted so that positive values are used for both intaking and
     // launching, and apply the config to the controller
-    SparkMaxConfig launcherConfig = new SparkMaxConfig();
+    // CAN 5 is the reference direction. CAN 6 is inverted so its shooter motor
+    // spins opposite CAN 5. Separate configs prevent inversion carrying over.
+    SparkMaxConfig can5LauncherConfig = new SparkMaxConfig();
+    can5LauncherConfig.smartCurrentLimit(LAUNCHER_MOTOR_CURRENT_LIMIT);
+    can5LauncherConfig.voltageCompensation(12);
+    can5LauncherConfig.idleMode(IdleMode.kCoast);
+    LeftIntakeLauncher.configure(
+        can5LauncherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    launcherConfig.smartCurrentLimit(LAUNCHER_MOTOR_CURRENT_LIMIT);
-    launcherConfig.voltageCompensation(12);
-    launcherConfig.idleMode(IdleMode.kCoast);
-    RightIntakeLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    launcherConfig.inverted(true);
-    LeftIntakeLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    SparkMaxConfig can6LauncherConfig = new SparkMaxConfig();
+    can6LauncherConfig.smartCurrentLimit(LAUNCHER_MOTOR_CURRENT_LIMIT);
+    can6LauncherConfig.voltageCompensation(12);
+    can6LauncherConfig.idleMode(IdleMode.kCoast);
+    can6LauncherConfig.inverted(true);
+    RightIntakeLauncher.configure(
+        can6LauncherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // put default values for various fuel operations onto the dashboard
     // all commands using this subsystem pull values from the dashbaord to allow
