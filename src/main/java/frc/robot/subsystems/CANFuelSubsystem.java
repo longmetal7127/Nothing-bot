@@ -14,6 +14,7 @@ import com.revrobotics.sim.SparkMaxSim;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.FuelConstants.*;
 
+@Logged
 public class CANFuelSubsystem extends SubsystemBase {
   private final SparkMax LeftIntakeLauncher;
   private final SparkMax RightIntakeLauncher;
@@ -81,6 +83,26 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void stop() {
     LeftIntakeLauncher.set(0);
     RightIntakeLauncher.set(0);
+  }
+
+  /** Left shooter motor output fraction, from -1.0 to 1.0. */
+  public double getLeftShooterOutput() {
+    return LeftIntakeLauncher.getAppliedOutput();
+  }
+
+  /** Right shooter motor output fraction, from -1.0 to 1.0. */
+  public double getRightShooterOutput() {
+    return RightIntakeLauncher.getAppliedOutput();
+  }
+
+  /** Left shooter speed from the desktop motor simulation, in RPM. */
+  public double getLeftShooterSimRpm() {
+    return leftLauncherPhysicsSim.getAngularVelocityRPM();
+  }
+
+  /** Right shooter speed from the desktop motor simulation, in RPM. */
+  public double getRightShooterSimRpm() {
+    return rightLauncherPhysicsSim.getAngularVelocityRPM();
   }
 
   @Override
