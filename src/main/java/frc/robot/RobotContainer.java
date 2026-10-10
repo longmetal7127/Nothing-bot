@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
 
-import frc.robot.commands.ClimbDown;
-import frc.robot.commands.ClimbUp;
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
@@ -19,7 +17,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.VortexSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -32,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
-  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private final VortexSubsystem vortexSubsystem = new VortexSubsystem();
 
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(
@@ -70,19 +68,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    // While the left bumper on operator controller is held, intake Fuel
-    driverController.leftBumper().whileTrue(new Intake(fuelSubsystem));
+    // While the left trigger is held, run the intake.
+    driverController.leftTrigger().whileTrue(new Intake(fuelSubsystem));
     // While the right bumper on the operator controller is held, spin up for 1
     // second, then launch fuel. When the button is released, stop.
     driverController.rightBumper().whileTrue(new LaunchSequence(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
     driverController.a().whileTrue(new Eject(fuelSubsystem));
-   // While the down arrow on the directional pad is held it will unclimb the robot
-    driverController.povDown().whileTrue(new ClimbDown(climberSubsystem));
-    // While the up arrow on the directional pad is held it will cimb the robot
-    driverController.povUp().whileTrue(new ClimbUp(climberSubsystem));
-
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -92,7 +85,7 @@ public class RobotContainer {
 
     fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
 
-    climberSubsystem.setDefaultCommand(climberSubsystem.run(() -> climberSubsystem.stop()));
+    vortexSubsystem.setDefaultCommand(vortexSubsystem.run(() -> vortexSubsystem.stop()));
 
   }
 
