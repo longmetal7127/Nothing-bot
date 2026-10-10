@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,7 +22,7 @@ import frc.robot.Constants.VortexConstants;
 import frc.robot.Constants.VortexConstants;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
-import frc.robot.subsystems.VortexSubsystem;
+import frc.robot.subsystems.Intake_Subsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -30,11 +31,12 @@ import frc.robot.subsystems.VortexSubsystem;
  * scheduler calls). Instead, the structure of the robot (including subsystems,
  * commands, and trigger mappings) should be declared here.
  */
+@Logged
 public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
-  private final VortexSubsystem vortexSubsystem = new VortexSubsystem();
+  private final Intake_Subsystem vortexSubsystem = new Intake_Subsystem();
 
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(

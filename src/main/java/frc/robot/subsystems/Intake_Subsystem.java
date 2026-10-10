@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VortexConstants;
 
 /** Controls the NEO Vortex through its docked SPARK Flex controller. */
-public class VortexSubsystem extends SubsystemBase {
+public class Intake_Subsystem extends SubsystemBase {
   private final SparkFlex vortexMotor = new SparkFlex(VortexConstants.VORTEX_MOTOR_ID, MotorType.kBrushless);
   private static final DCMotor VORTEX_GEARBOX = DCMotor.getNeoVortex(1);
   private final SparkFlexSim vortexMotorSim = new SparkFlexSim(vortexMotor, VORTEX_GEARBOX);
