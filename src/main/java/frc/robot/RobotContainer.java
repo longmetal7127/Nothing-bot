@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
 
+
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
@@ -79,6 +80,9 @@ public class RobotContainer {
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
     driverController.a().whileTrue(new Eject(fuelSubsystem));
+   // While the down arrow on the directional pad is held it will unclimb the robot
+   
+
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the

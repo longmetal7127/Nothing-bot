@@ -11,7 +11,7 @@ import frc.robot.subsystems.CANFuelSubsystem;
 public class ForwardAuto extends SequentialCommandGroup {
   public ForwardAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
     addCommands(
-    // Drive backwards for 3 seconds. The driveArcadeAuto command factory
+    // Drive backwards for 5 seconds. The driveArcadeAuto command factory
     // intentionally creates a command which does not end which allows us to control
     // the timing using the withTimeout decorator
     new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(5));
