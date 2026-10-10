@@ -58,6 +58,8 @@ public final class Constants {
   public static final class VortexConstants {
     // CAN ID of the SPARK Flex controller docked to the NEO Vortex motor
     public static final int VORTEX_MOTOR_ID = 7;
+    public static final double VORTEX_INTAKING_PERCENT = 0.6;
+    public static final double VORTEX_SHOOTING_PERCENT = -0.85;
   }
 
   public static final class OperatorConstants {

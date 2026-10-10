@@ -17,6 +17,8 @@ import frc.robot.commands.ExampleAuto;
 import frc.robot.commands.ForwardAuto;
 import frc.robot.commands.Intake;
 import frc.robot.commands.LaunchSequence;
+import frc.robot.Constants.VortexConstants;
+import frc.robot.Constants.VortexConstants;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
 import frc.robot.subsystems.VortexSubsystem;
@@ -72,11 +74,23 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    // While the left trigger is held, run the intake.
+    // While the left trigger is held, run the fuel intake and Vortex intake motor.
     driverController.leftTrigger().whileTrue(new Intake(fuelSubsystem));
-    // While the right bumper on the operator controller is held, spin up for 1
-    // second, then launch fuel. When the button is released, stop.
-    driverController.rightBumper().whileTrue(new LaunchSequence(fuelSubsystem));
+    driverController.leftTrigger().whileTrue(vortexSubsystem.runEnd(
+        () -> vortexSubsystem.setOutput(VortexConstants.VORTEX_INTAKING_PERCENT),
+        vortexSubsystem::stop));
+    driverController.leftTrigger().whileTrue(vortexSubsystem.runEnd(
+        () -> vortexSubsystem.setOutput(VortexConstants.VORTEX_INTAKING_PERCENT),
+        vortexSubsystem::stop));
+
+    // While the right trigger is held, spin up and launch with the Vortex reversed.
+    driverController.rightTrigger().whileTrue(new LaunchSequence(fuelSubsystem));
+    driverController.rightTrigger().whileTrue(vortexSubsystem.runEnd(
+        () -> vortexSubsystem.setOutput(VortexConstants.VORTEX_SHOOTING_PERCENT),
+        vortexSubsystem::stop));
+    driverController.rightTrigger().whileTrue(vortexSubsystem.runEnd(
+        () -> vortexSubsystem.setOutput(VortexConstants.VORTEX_SHOOTING_PERCENT),
+        vortexSubsystem::stop));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
     driverController.a().whileTrue(new Eject(fuelSubsystem));
