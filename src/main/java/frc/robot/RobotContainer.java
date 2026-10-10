@@ -14,6 +14,8 @@ import static frc.robot.Constants.OperatorConstants.*;
 import frc.robot.commands.Auto_Routines.Center_Shoot_Auto;
 import frc.robot.commands.Auto_Routines.ExampleAuto;
 import frc.robot.commands.Auto_Routines.Left_Forward;
+import frc.robot.commands.Auto_Routines.Left_Shoot;
+import frc.robot.commands.Auto_Routines.Right_Forward;
 import frc.robot.commands.Bot_commands.Drive;
 import frc.robot.commands.Bot_commands.Eject;
 import frc.robot.commands.Bot_commands.Intake;
@@ -58,8 +60,10 @@ public class RobotContainer {
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
     // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
-    autoChooser.setDefaultOption("Autonomous", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
-     autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
+    autoChooser.setDefaultOption("Center_Shoot", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
+    autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
+    autoChooser.addOption("Right_forward" , new Right_Forward(driveSubsystem, fuelSubsystem)  ); 
+   
 
   }
 
