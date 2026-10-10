@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.OperatorConstants.*;
 
-import frc.robot.commands.ClimbDown;
-import frc.robot.commands.ClimbUp;
+
 import frc.robot.commands.Drive;
 import frc.robot.commands.Eject;
 import frc.robot.commands.ExampleAuto;
@@ -79,9 +78,7 @@ public class RobotContainer {
     // the intake
     driverController.a().whileTrue(new Eject(fuelSubsystem));
    // While the down arrow on the directional pad is held it will unclimb the robot
-    driverController.povDown().whileTrue(new ClimbDown(climberSubsystem));
-    // While the up arrow on the directional pad is held it will cimb the robot
-    driverController.povUp().whileTrue(new ClimbUp(climberSubsystem));
+   
 
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
