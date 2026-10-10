@@ -83,11 +83,6 @@ public class CANFuelSubsystem extends SubsystemBase {
   public void periodic() {
     // Show live motor output and current on the SmartDashboard. Applied output
     // is a fraction from -1.0 to 1.0; current is measured in amps.
-    SmartDashboard.putNumber("Fuel/Left Shooter Output", LeftIntakeLauncher.getAppliedOutput().get(0.0));
-    SmartDashboard.putNumber("Fuel/Left Shooter Current (A)", LeftIntakeLauncher.getOutputCurrent().get(0.0));
-    SmartDashboard.putNumber("Fuel/Right Shooter Output", RightIntakeLauncher.getAppliedOutput().get(0.0));
-    SmartDashboard.putNumber("Fuel/Right Shooter Current (A)", RightIntakeLauncher.getOutputCurrent().get(0.0));
-    SmartDashboard.putNumber("Fuel/Indexer Output", Indexer.getAppliedOutput().get(0.0));
-    SmartDashboard.putNumber("Fuel/Indexer Current (A)", Indexer.getOutputCurrent().get(0.0));
+   
   }
 }
