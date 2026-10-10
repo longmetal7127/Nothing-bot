@@ -14,9 +14,9 @@ import static frc.robot.Constants.AutoConstants.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class RL_Forward extends SequentialCommandGroup {
+public class Left_Forward extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public RL_Forward(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
+  public Left_Forward(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
     // Calculate required time to rotate bot
     double rotation_time = RL_ROTATION/ROTATION_SPEED;
 
