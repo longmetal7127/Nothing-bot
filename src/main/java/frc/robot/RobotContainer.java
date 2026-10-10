@@ -13,6 +13,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 
 import frc.robot.commands.Auto_Routines.Center_Shoot_Auto;
 import frc.robot.commands.Auto_Routines.ExampleAuto;
+import frc.robot.commands.Auto_Routines.Left_Forward;
 import frc.robot.commands.Bot_commands.Drive;
 import frc.robot.commands.Bot_commands.Eject;
 import frc.robot.commands.Bot_commands.Intake;
@@ -58,6 +59,7 @@ public class RobotContainer {
     // autoChooser.addOption
     // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
     autoChooser.setDefaultOption("Autonomous", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
+     autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
 
   }
 
