@@ -5,6 +5,7 @@
 package frc.robot.commands.Auto_Routines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Bot_commands.LaunchSequence;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
 
@@ -15,7 +16,9 @@ public class Center_Shoot_Auto extends SequentialCommandGroup {
     // intentionally creates a command which does not end which allows us to control
     // the timing using the withTimeout decorator 
 
-    new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(3));
+    new AutoDrive(driveSubsystem,-0.5,  0.0).withTimeout(3));
+    new LaunchSequence(ballSubsystem).withTimeout(10);
+
     
     
   }
