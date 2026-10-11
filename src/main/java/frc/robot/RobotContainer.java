@@ -16,6 +16,7 @@ import frc.robot.commands.Auto_Routines.ExampleAuto;
 import frc.robot.commands.Auto_Routines.Left_Forward;
 import frc.robot.commands.Auto_Routines.Left_Shoot;
 import frc.robot.commands.Auto_Routines.Right_Forward;
+import frc.robot.commands.Auto_Routines.Right_Shoot;
 import frc.robot.commands.Bot_commands.Drive;
 import frc.robot.commands.Bot_commands.Eject;
 import frc.robot.commands.Bot_commands.Intake;
@@ -63,7 +64,9 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Center_Shoot", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
     autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
     autoChooser.addOption("Right_forward" , new Right_Forward(driveSubsystem, fuelSubsystem)  ); 
-    
+    autoChooser.addOption("Left_Shoot", new Left_Shoot(driveSubsystem, fuelSubsystem));
+    autoChooser.addOption("Right_Shoot", new Right_Shoot(driveSubsystem, fuelSubsystem));
+
    
 
   }
