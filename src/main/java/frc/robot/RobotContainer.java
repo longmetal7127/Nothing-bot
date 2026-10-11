@@ -69,7 +69,7 @@ public class RobotContainer {
     autoChooser.addOption("Right_forward" , new Right_Forward(driveSubsystem, fuelSubsystem)  ); 
     autoChooser.addOption("Left_Shoot", new Left_Shoot(driveSubsystem, fuelSubsystem));
     autoChooser.addOption("Right_Shoot", new Right_Shoot(driveSubsystem, fuelSubsystem));
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
    
 
   }
