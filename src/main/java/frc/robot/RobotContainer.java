@@ -60,7 +60,10 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
+    // autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem)); 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Auto Options for CKI , to be tuned , Do not change this !!!
     autoChooser.setDefaultOption("Center_Shoot", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
     autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
     autoChooser.addOption("Right_forward" , new Right_Forward(driveSubsystem, fuelSubsystem)  ); 
