@@ -63,6 +63,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Center_Shoot", new Center_Shoot_Auto(driveSubsystem, fuelSubsystem));
     autoChooser.addOption("Left_forward" , new Left_Forward(driveSubsystem, fuelSubsystem)  ); 
     autoChooser.addOption("Right_forward" , new Right_Forward(driveSubsystem, fuelSubsystem)  ); 
+    
    
 
   }
